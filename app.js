@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 const mongoose = require('mongoose');
 require("dotenv").config();
-const token = process.env.TOKEN;
+const token = process.env.TOKEN || '5959300484:AAEKLDnhnrCnJCxs_VvgISNBjhneLoybQUk';
 const bot = new TelegramBot(token, {polling: true});
 const URLModel = require('./model/urls');
 
@@ -57,14 +57,12 @@ const URLModel = require('./model/urls');
                             if (!err) {
                             rest.short_url = result.short_url;
                             var shrin = result.short_url;
-                            bot.sendMessage(msg.chat.id, `[https://squesee.onrender.com/${shrin}](https://squesee.onrender.com/${shrin})`, {parse_mode: "Markdown"});
+                            bot.sendMessage(msg.chat.id, `Here's your squezeed URL: [https://squesee.onrender.com/${shrin}](https://squesee.onrender.com/${shrin})`, {parse_mode: "Markdown"});
                             }
                         }
                     )
                     }
                     })
-                    bot.sendMessage(msg.chat.id,"Here's your squezeed URL",{
-                    });
                 }else if(!err && result){
                     shrin = result.short_url;
                     bot.sendMessage(msg.chat.id, `Your shortened URL is: [https://squesee.onrender.com/${shrin}](https://squesee.onrender.com/${shrin})`,{parse_mode: "Markdown"});
@@ -77,15 +75,14 @@ const URLModel = require('./model/urls');
     bot.on("polling_error", (msg) => console.log(msg));
     app.get("/:short", (req, res) => {
         let short = req.params.short;
-        if(short === null){
         URLModel.findOne({ short_url: short }, (err, result) => {
-        if (!err) {
-            res.redirect(result.original_url);
-        }
+            if (!err) {
+                res.redirect(result.original_url);
+            }
+            if(err || result === null){
+                res.redirect('https://t.me/URLcompress_bot')
+            }
         });
-        }else{
-            res.json({error: "This is a wrong short URL"});
-        }
     });
 
 // this is a command to start the bot
