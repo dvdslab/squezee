@@ -17,7 +17,7 @@ const URLModel = require('./model/urls');
         var help = "/help";
         // console.log(msg);
         if (msg.text.toString().toLowerCase().indexOf(Hi) === 0) {
-        bot.sendMessage(msg.chat.id,"Hello  " + msg.from.first_name);
+        bot.sendMessage(msg.chat.id,"Hello " + msg.from.first_name);
         }
         else if(msg.text.toString().toLowerCase().includes("bye")) {
         bot.sendMessage(msg.chat.id,"bye, See you soon");
