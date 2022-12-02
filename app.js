@@ -79,8 +79,9 @@ const URLModel = require('./model/urls');
             if (!err) {
                 res.redirect(result.original_url);
             }
+            console.log(result);
             if(err || result === null){
-                res.redirect('https://t.me/URLcompress_bot')
+                res.json({"URL not found": "Please enter a valid URL"});
             }
         });
     });
