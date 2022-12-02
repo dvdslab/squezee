@@ -1,9 +1,9 @@
-require("dotenv").config();
+const TelegramBot = require('node-telegram-bot-api');
 var express = require('express');
 var app = express();
 const mongoose = require('mongoose');
-const TelegramBot = require('node-telegram-bot-api');
-const token = '5959300484:AAHwWPKV7VBfGPAtrxkbLP_H-WDZiHm9DmA';
+require("dotenv").config();
+const token = process.env.TOKEN;
 const bot = new TelegramBot(token, {polling: true});
 const URLModel = require('./model/urls');
 
@@ -26,7 +26,7 @@ const URLModel = require('./model/urls');
         bot.sendMessage(msg.chat.id,"More features coming soon...\n Stick around to see what we have in store for you.");
         }else if(msg.text.toString().toLowerCase().indexOf(con) === 0 || msg.text.toString().toLowerCase().indexOf(start) === 0 || msg.text.toString().toLowerCase().indexOf(help) === 0){
             
-        }else if(msg.text.toString().toLowerCase().includes("https://")){
+        }else if(msg.text.toString().toLowerCase().includes("https://" || "http://")){
             let rest = {};
             let url = msg.text.toString();
             rest.original_url = url;
@@ -64,9 +64,6 @@ const URLModel = require('./model/urls');
                     }
                     })
                     bot.sendMessage(msg.chat.id,"Here's your squezeed URL",{
-                        "reply_markup": {
-                            "keyboard": [["bye"]]
-                        }
                     });
                 }else if(!err && result){
                     shrin = result.short_url;
@@ -76,24 +73,26 @@ const URLModel = require('./model/urls');
         }else{
             bot.sendMessage(msg.chat.id,"Sorry, I don't understand what you mean.");
         }
-
-            });
-            
-            
-        app.get("/:short", (req, res) => {
-            let short = req.params.short;
-            URLModel.findOne({ short_url: short }, (err, result) => {
-            if (!err) {
-                res.redirect(result.original_url);
-            }
-            });
+    });    
+    bot.on("polling_error", (msg) => console.log(msg));
+    app.get("/:short", (req, res) => {
+        let short = req.params.short;
+        if(short === null){
+        URLModel.findOne({ short_url: short }, (err, result) => {
+        if (!err) {
+            res.redirect(result.original_url);
+        }
         });
+        }else{
+            res.json({error: "This is a wrong short URL"});
+        }
+    });
 
 // this is a command to start the bot
     bot.onText(/\/start/, (msg) => {
         var name = msg.from.first_name
         bot.sendMessage(msg.chat.id,
-            `Welcome ${name} to URL shortener. \n An easier and cheaper way to shorten URL.\n \n Brought to you by @dvdslab`, {
+            `Welcome ${name} to URL shortener. \n An easier and cheaper way to shorten URL.\n Enter a url in this fromat <pre>https://www.squesee.com</pre> to 'squesee' it \n click /help for more options \n \n Brought to you by @HiASSea`, {parse_mode: "HTML"},{
                 "reply_markup": {
                     "keyboard": [["/help"],["/contact"],["/coming_soon..."] ]
                 }
@@ -103,11 +102,11 @@ const URLModel = require('./model/urls');
 
 /* This is a command to contact the bot owner. */
     bot.onText(/\/contact/, (msg) => {
-        bot.sendMessage(msg.chat.id, "Contact us at \nhttps://t.me/dvdslab\nhttps://github.com/dvdslab");
+        bot.sendMessage(msg.chat.id, "Contact us at \nhttps://t.me/HiASSea\nhttps://github.com/dvdslab");
     });
 
     bot.onText(/\/help/, (msg) => {
-        bot.sendMessage(msg.chat.id, "Type \n/start to get started \n /contact to contact the bot owner\n /coming_soon... to see what we have in store for you");
+        bot.sendMessage(msg.chat.id, "Type \n/start to get started \n /contact to contact the bot owner\n /coming_soon... to see what we have in store for you \n Enter a url in this fromat <pre>https://www.squesee.com</pre> to 'squesee' it \n and \n /help to see this message again (obviously)", {parse_mode: "HTML"});
     });
 
 /* Listening to the port 3000. */
