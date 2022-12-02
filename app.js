@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 const mongoose = require('mongoose');
 require("dotenv").config();
-const token = process.env.TOKEN || '5959300484:AAEKLDnhnrCnJCxs_VvgISNBjhneLoybQUk';
+const token = process.env.TOKEN;
 const bot = new TelegramBot(token, {polling: true});
 const URLModel = require('./model/urls');
 
@@ -79,7 +79,6 @@ const URLModel = require('./model/urls');
             if (!err) {
                 res.redirect(result.original_url);
             }
-            console.log(result);
             if(err || result === null){
                 res.json({"URL not found": "Please enter a valid URL"});
             }
