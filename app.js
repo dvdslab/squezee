@@ -72,7 +72,7 @@ const URLModel = require('./model/urls');
             bot.sendMessage(msg.chat.id,"Sorry, I don't understand what you mean.");
         }
     });    
-    bot.on("polling_error", (msg) => console.log(msg));
+    // bot.on("polling_error", (msg) => console.log(msg));
     app.get("/:short", (req, res) => {
         let short = req.params.short;
         URLModel.findOne({ short_url: short }, (err, result) => {
