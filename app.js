@@ -57,7 +57,7 @@ const URLModel = require('./model/urls');
                             if (!err) {
                             rest.short_url = result.short_url;
                             var shrin = result.short_url;
-                            bot.sendMessage(msg.chat.id, `[http://localhost:3000/${shrin}](http://localhost:3000/${shrin})`, {parse_mode: "Markdown"});
+                            bot.sendMessage(msg.chat.id, `[http://squesee.me/${shrin}](http://squesee.me/${shrin})`, {parse_mode: "Markdown"});
                             }
                         }
                     )
@@ -70,7 +70,7 @@ const URLModel = require('./model/urls');
                     });
                 }else if(!err && result){
                     shrin = result.short_url;
-                    bot.sendMessage(msg.chat.id, `Your shortened URL is: [http://localhost:3000/${shrin}](http://localhost:3000/${shrin})`,{parse_mode: "Markdown"});
+                    bot.sendMessage(msg.chat.id, `Your shortened URL is: [http://squesee.me/${shrin}](http://squesee.me/${shrin})`,{parse_mode: "Markdown"});
                 }
             });
         }else{
@@ -112,9 +112,10 @@ const URLModel = require('./model/urls');
 
 /* Listening to the port 3000. */
 const URI = process.env.MONGO_URI
+const PORT = process.env.PORT || 3000;
 mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {   
-    app.listen(3000, function () {
+    app.listen(PORT, function () {
         console.log('listening...');
         });
 }).catch(() => {
