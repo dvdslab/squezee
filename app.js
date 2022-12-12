@@ -223,7 +223,7 @@ bot.onText(/\/profile/, (msg) => {
             } else if (!err && result) {
                 let table = ""
                 for (let i of result.links) {
-                    table += "\n" + i.original_url.substr(0, 22) + "... ==> https://squezee.up.railway.app/" + i.short_url + "\n";
+                    table += "\n" + i.original_url.substr(0, 22) + "... ==> https://squezee.onrender.com" + i.short_url + "\n";
                 }
                 bot.sendMessage(U.id, `<b>Account Profile</b>.\n\n<b>Fullname</b>: ${result.fullname} \n<b>Username</b>: ${result.username} \n<b>Links created</b>: ${result.links.length} \n<b>Links</b>: ${table}`, {
                     parse_mode: 'HTML'
