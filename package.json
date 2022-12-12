@@ -15,7 +15,9 @@
     "http-errors": "~1.6.3",
     "mongoose": "^6.7.5",
     "morgan": "~1.9.1",
-    "node-telegram-bot-api": "^0.60.0"
+    "node-telegram-bot-api": "^0.60.0",
+    "validator": "^13.7.0",
+    "xx": "^0.60.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
