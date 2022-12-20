@@ -133,12 +133,12 @@ app.get("/:short", (req, res) => {
     URLModel.findOne({
         short_url: short
     }, (err, result) => {
-        if (!err) {
+        if (!err && result) {
             res.redirect(result.original_url);
         }
         if (err || result === null) {
             res.json({
-                "URL not found": "Please enter a valid URL"
+                "URL not found": "The shortened URL doesnt exist"
             });
         }
     });
