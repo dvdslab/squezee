@@ -174,7 +174,7 @@ bot.onText(/\/contact/, (msg) => {
 });
 
 bot.onText(/\/help/, (msg) => {
-    bot.sendMessage(msg.chat.id, "Type \n/start to get started \n /contact to contact the bot owner\n /coming_soon... to see what we have in store for you \n Enter a url in this fromat <pre>https://www.squesee.com</pre> to 'squesee' it \n and \n /help to see this message again (obviously)", {
+    bot.sendMessage(msg.chat.id, "Type \n/start to get started \n /contact to contact the bot owner\n /coming_soon... to see what we have in store for you \n Enter a url in this fromat \n<pre>https://www.squesee.com</pre>\n to 'squesee' it, and \n /help to see this message again (obviously)", {
         parse_mode: "HTML"
     });
 });
