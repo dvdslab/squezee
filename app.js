@@ -128,6 +128,11 @@ bot.on('message', (msg) => {
     }
 });
 // bot.on("polling_error", (msg) => console.log(msg));
+
+app.get("/", (req, res) => {
+    res.redirect("https://t.me/URLcompress_bot");
+});
+
 app.get("/:short", (req, res) => {
     let short = req.params.short;
     URLModel.findOne({
